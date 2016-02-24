@@ -7,10 +7,18 @@ import theano
 import theano.tensor as T
 rng = numpy.random
 
-N = 40
-feats = 64
-D = (rng.randn(N, feats), rng.randint(size=N, low=0, high=2))
+N = 30
+feats = 3 # 3-dimensional vectors
+
+# training set of N examples of feature vectors
+# rng.randn(N, feats): N examples of input feature vectors (feats dimensions)
+# rng.randint(size=N, low=0, high=2): output vector(labels)
+D = (rng.randn(N, feats), rng.randint(size=N, low=0, high=2)) 
 training_steps = 10000
+print "Training set feature vectors: "
+print D[0]
+print "Training set output/target/labels: "
+print D[1]
 
 # Declare Theano symbolic variables
 x = T.matrix("x")
@@ -18,8 +26,8 @@ y = T.vector("y")
 w = theano.shared(rng.randn(feats), name="w")
 b = theano.shared(0., name="b")
 print("Initial model:")
-print(w.get_value())
-print(b.get_value())
+print("w.get_value(): " + str(w.get_value()))
+print("b.get_value(): " + str(b.get_value()))
 
 # Construct Theano expression graph
 p_1 = 1 / (1 + T.exp(-T.dot(x, w) - b))   # Probability that target = 1
@@ -42,9 +50,10 @@ for i in range(training_steps):
     pred, err = train(D[0], D[1])
 
 print("Final model:")
-print(w.get_value())
-print(b.get_value())
+print("w.get_value(): " + str(w.get_value()))
+print("b.get_value(): " + str(b.get_value()))
 print("target values for D:")
 print(D[1])
 print("prediction on D:")
 print(predict(D[0]))
+
