@@ -1,8 +1,8 @@
 import numpy as np
 import time
 import theano
-A = np.random.rand(1000,10000).astype(theano.config.floatX)
-B = np.random.rand(10000,1000).astype(theano.config.floatX)
+A = np.random.rand(3000,10000).astype(theano.config.floatX)
+B = np.random.rand(10000,3000).astype(theano.config.floatX)
 np_start = time.time()
 AB = A.dot(B)
 np_end = time.time()
