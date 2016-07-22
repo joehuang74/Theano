@@ -13,13 +13,18 @@ from theano import Param
 # It is a Theano Type. dscalar is not a class. Therefore, neither x nor y are actually instances of dscalar.
 # They are instances of TensorVariable
 print "===== Define Scalar x, y and z=x+y ====="
-x = T.dscalar('x')
-y = T.dscalar('y')
+x = T.dscalar('xSymbolName')
+y = T.dscalar('ySymbolName')
 z = x + y
 print "Class type of declared variable x: " + str(type(x))
 print "x.type: " + str(x.type)
+print "x: " + str(x)
 print "T.dscalar: " + str(T.dscalar)
 print "x.type is T.dscalar: " + str(x.type is T.dscalar)
+
+# To actually compute things with Theano, 
+# you define symbolic functions, which can then be called with actual values 
+# to retrieve an actual value.
 
 # Define and test function scalar_add
 scalar_add = function([x, y], z)
@@ -29,8 +34,11 @@ print "scalar_add(2, 3) = " + str(scalar_add(2, 3))
 print "scalar_add(16.3, 12.1) = " + str(scalar_add(16.3, 12.1))
 print "scalar_add_one_by_default(16.3, 12.1) = " + str(scalar_add_one_by_default(16.3, 12.1))
 print "scalar_add_one_by_default(16.3) = " + str(scalar_add_one_by_default(16.3))
-print "z.eval({x : 16.3, y : 12.1}) = " + str(z.eval({x : 16.3, y : 12.1}))
 
+# Alternatively, in some cases you can use a symbolic variable's eval method.
+# This can be more convenient than defining a function.
+# The eval method takes a dictionary where the keys are theano variables and the values are values for those variables.
+print "z.eval({x : 16.3, y : 12.1}) = " + str(z.eval({x : 16.3, y : 12.1}))
 
 # Function for matrix addition
 print ""
