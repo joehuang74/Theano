@@ -1,4 +1,5 @@
 ###################################################################
+# Logistic regression classifier demo
 # Refer to http://deeplearning.net/software/theano/tutorial       #
 ###################################################################
 
