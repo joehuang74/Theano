@@ -66,13 +66,15 @@ def load_data(dataset):
 
 
 # Sample datasets, uncomment one of them to load
+# Note: this algorithm can only be used for two-class problems, 
+#       so there will be unreasonable results for non-two-class problems
 # vehicle_2_classes_small: Two classes: vehicle or non-vehicle
 train_set, valid_set, test_set = load_data('../data/vehicle_2_classes_small.pkl.gz')
 
 # imageclipper: four classes: bike, car, motorcycle, pedestrian
 #train_set, valid_set, test_set = load_data('../data/imageclipper.pkl.gz')
 
-# MNIST
+# MNIST (0~9 digits 10 classes)
 #train_set, valid_set, test_set = load_data('../data/mnist.pkl.gz')
 
 
@@ -110,8 +112,10 @@ gw, gb = T.grad(cost, [w, b])             # Compute the gradient of the cost
 train = theano.function(
           inputs=[x,y],
           outputs=[prediction, xent],
-          updates=((w, w - 0.1 * gw), (b, b - 0.1 * gb)))
-predict = theano.function(inputs=[x], outputs=prediction)
+          updates=((w, w - 0.1 * gw), (b, b - 0.1 * gb)),
+          allow_input_downcast=True)
+predict = theano.function(inputs=[x], outputs=prediction,
+          allow_input_downcast=True)
 
 # Train
 for i in range(training_steps):
@@ -124,7 +128,7 @@ print("Final model:")
 print("w.get_value(): " + str(w.get_value()))
 print("b.get_value(): " + str(b.get_value()))
 
-print("target values for D:")
+print("target values for train_set:")
 print(train_set[1])
 print("prediction on train_set:")
 trainset_prediction = predict(train_set[0])
@@ -133,16 +137,18 @@ trainset_correct_count = 0
 for i in range(0, N-1):
     if trainset_prediction[i] == train_set[1][i]:
         trainset_correct_count =  trainset_correct_count + 1
-print("trainset classification accuracy:" + str(float(trainset_correct_count)/N))
+print("train set classification accuracy:" + str(float(trainset_correct_count)/N))
 
 ### test set
-#print("prediction on test_set:")
+print("target values for test_set:")
+print(test_set[1])
+print("prediction on test_set:")
 testset_prediction = predict(test_set[0])
-#print(testset_prediction)
+print(testset_prediction)
 testset_correct_count = 0
 for i in range(0, test_N-1):
     if testset_prediction[i] == test_set[1][i]:
         testset_correct_count =  testset_correct_count + 1
-print("testset classification accuracy:" + str(float(testset_correct_count)/test_N))
+print("test set classification accuracy:" + str(float(testset_correct_count)/test_N))
 
 

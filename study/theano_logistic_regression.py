@@ -43,8 +43,10 @@ gw, gb = T.grad(cost, [w, b])             # Compute the gradient of the cost
 train = theano.function(
           inputs=[x,y],
           outputs=[prediction, xent],
-          updates=((w, w - 0.1 * gw), (b, b - 0.1 * gb)))
-predict = theano.function(inputs=[x], outputs=prediction)
+          updates=((w, w - 0.1 * gw), (b, b - 0.1 * gb)),
+          allow_input_downcast=True)
+predict = theano.function(inputs=[x], outputs=prediction,
+          allow_input_downcast=True)
 
 # Train
 for i in range(training_steps):
