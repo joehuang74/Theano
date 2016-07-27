@@ -66,16 +66,14 @@ def load_data(dataset):
 
 
 # Sample datasets, uncomment one of them to load
-# Note: this algorithm can only be used for two-class problems, 
-#       so there will be unreasonable results for non-two-class problems
+# Note: this algorithm should only be used for two-class problems
 # vehicle_2_classes_small: Two classes: vehicle or non-vehicle
 train_set, valid_set, test_set = load_data('../data/vehicle_2_classes_small.pkl.gz')
 
-# imageclipper: four classes: bike, car, motorcycle, pedestrian
-#train_set, valid_set, test_set = load_data('../data/imageclipper.pkl.gz')
-
-# MNIST (0~9 digits 10 classes)
-#train_set, valid_set, test_set = load_data('../data/mnist.pkl.gz')
+# images_vehicle_2_classes_unreasonable: Two classes: vehicle or non-vehicle
+# Actually the two classes both contain vehicle or non-vehicle images, all mixed together,
+# so the result should be terrible
+#train_set, valid_set, test_set = load_data('../data/images_vehicle_2_classes_unreasonable.pkl.gz')
 
 
 N = train_set[0].shape[0]
